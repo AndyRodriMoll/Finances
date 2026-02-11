@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>💘 Valentine’s?</title>
+  <style>
+    body{
+      margin:0; min-height:100vh; display:grid; place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top, #ffe6f0, #fff);
+      color:#222;
+    }
+    .card{
+      width:min(520px, 92vw);
+      background:#fff;
+      padding:28px;
+      border-radius:18px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.12);
+      text-align:center;
+    }
+    h1{ margin:0 0 10px; font-size:34px;}
+    p{ margin:0 0 18px; font-size:18px; opacity:.9;}
+    .btns{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
+    button{
+      border:0; padding:12px 18px; border-radius:12px;
+      font-size:18px; cursor:pointer;
+      transition: transform .08s ease;
+    }
+    button:active{ transform: scale(.98); }
+    .yes{ background:#ff4d7d; color:white; }
+    .no{ background:#f2f2f2; }
+    #msg{ margin-top:18px; font-size:20px; }
+    .tiny{ margin-top:10px; font-size:12px; opacity:.6;}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Hey [Her Name] 💖</h1>
+    <p>Will you be my Valentine?</p>
+
+    <div class="btns">
+      <button class="yes" id="yesBtn">Yes!!!</button>
+      <button class="no" id="noBtn">No</button>
+    </div>
+
+    <div id="msg"></div>
+    <div class="tiny">made with love 🥹</div>
+  </div>
+
+  <script>
+    const msg = document.getElementById("msg");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+
+    const noTexts = [
+      "Are you sure? 😳",
+      "Wait… think again 🥺",
+      "I’ll be so sad 😭",
+      "Okay but… what if I bring chocolate? 🍫",
+      "Last chance 😤",
+      "No button is feeling shy…"
+    ];
+    let i = 0;
+
+    yesBtn.onclick = () => {
+      msg.innerHTML = "YAYYYYY 💘💘💘<br/>I can’t wait!!!";
+      confetti();
+    };
+
+    noBtn.onclick = () => {
+      msg.textContent = noTexts[i % noTexts.length];
+      i++;
+      // make "Yes" grow a little each time 😈
+      const size = 18 + i*2;
+      yesBtn.style.fontSize = size + "px";
+      // move the No button around slightly
+      noBtn.style.transform = `translate(${(Math.random()*20-10).toFixed(0)}px, ${(Math.random()*20-10).toFixed(0)}px)`;
+    };
+
+    function confetti(){
+      // tiny lightweight confetti
+      for(let j=0;j<120;j++){
+        const s=document.createElement("span");
+        s.style.position="fixed";
+        s.style.left=Math.random()*100+"vw";
+        s.style.top="-10px";
+        s.style.width="8px"; s.style.height="8px";
+        s.style.background=`hsl(${Math.random()*360},90%,60%)`;
+        s.style.borderRadius="2px";
+        s.style.zIndex=9999;
+        s.style.transform=`rotate(${Math.random()*360}deg)`;
+        document.body.appendChild(s);
+        const fall = s.animate([
+          { transform: s.style.transform, top: "-10px", opacity: 1 },
+          { transform: `rotate(${Math.random()*720}deg)`, top: "110vh", opacity: 0.9 }
+        ], { duration: 1200 + Math.random()*1200, easing: "cubic-bezier(.2,.6,.2,1)" });
+        fall.onfinish=()=>s.remove();
+      }
+    }
+  </script>
+</body>
+</html>
+
